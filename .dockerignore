@@ -1,0 +1,26 @@
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# HuggingFace cache (this is huge)
+.cache/
+huggingface/
+hf_cache/
+models/
+*whisper*/  # added safety
+
+# Temp files
+temp_audio.wav
+*.log
+
+# Git
+.git/
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
