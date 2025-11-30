@@ -131,7 +131,9 @@ docker start video_text_extraction_container 2>$null || docker run --name video_
 docker stop video_text_extraction_container 2>/dev/null
 
 # Restart or create new container with fresh mounts
-docker start video_text_extraction_container 2>/dev/null || docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
+docker start video_text_extraction_container 2>/dev/null
+
+docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
 ```
 
 **Note:** Docker containers are immutable. To update code changes:
@@ -143,12 +145,14 @@ For quick updates, use this one-liner:
 
 **Linux/macOS:**
 ```bash
-docker build -t video_text_extraction . && docker rm -f video_text_extraction_container 2>/dev/null; docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
+docker build -t video_text_extraction . 
+docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
 ```
 
 **Windows PowerShell:**
 ```powershell
-docker build -t video_text_extraction . ; docker rm -f video_text_extraction_container 2>$null ; docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
+docker build -t video_text_extraction . ;  
+docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
 ```
 
 ---
