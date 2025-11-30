@@ -111,13 +111,21 @@ docker build -t video_text_extraction .
 ### Run (Windows PowerShell)
 
 ```powershell
-docker run --rm -v ${PWD}\input:/app/input -v ${PWD}\output:/app/output video_text_extraction
+# Stop and remove existing container if running
+docker stop video_text_extraction_container 2>$null; docker rm video_text_extraction_container 2>$null
+
+# Run with fresh mounts
+docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
 ```
 
 ### Linux / macOS
 
 ```bash
-docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output video_text_extraction
+# Stop and remove existing container if running
+docker stop video_text_extraction_container 2>/dev/null; docker rm video_text_extraction_container 2>/dev/null
+
+# Run with fresh mounts
+docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
 ```
 
 ---
