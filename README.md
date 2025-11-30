@@ -102,7 +102,13 @@ output/result.json
 
 ## 🐳 Docker Usage
 
-### Build image
+### Initial Build
+
+```bash
+docker build -t video_text_extraction .
+```
+
+### Rebuild image after code changes (fast - uses cached dependencies)
 
 ```bash
 docker build -t video_text_extraction .
@@ -111,21 +117,38 @@ docker build -t video_text_extraction .
 ### Run (Windows PowerShell)
 
 ```powershell
-# Stop and remove existing container if running
-docker stop video_text_extraction_container 2>$null; docker rm video_text_extraction_container 2>$null
+# Stop existing container (keeps it for reuse)
+docker stop video_text_extraction_container 2>$null
 
-# Run with fresh mounts
-docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
+# Start with updated image and fresh file mounts
+docker start video_text_extraction_container 2>$null || docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
 ```
 
 ### Linux / macOS
 
 ```bash
-# Stop and remove existing container if running
-docker stop video_text_extraction_container 2>/dev/null; docker rm video_text_extraction_container 2>/dev/null
+# Stop existing container (keeps it for reuse)
+docker stop video_text_extraction_container 2>/dev/null
 
-# Run with fresh mounts
-docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
+# Restart or create new container with fresh mounts
+docker start video_text_extraction_container 2>/dev/null || docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
+```
+
+**Note:** Docker containers are immutable. To update code changes:
+1. Rebuild the image (step 2 above) - dependencies are cached, only code layer rebuilds
+2. Remove old container: `docker rm video_text_extraction_container`
+3. Run the container again with the new image
+
+For quick updates, use this one-liner:
+
+**Linux/macOS:**
+```bash
+docker build -t video_text_extraction . && docker rm -f video_text_extraction_container 2>/dev/null; docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
+```
+
+**Windows PowerShell:**
+```powershell
+docker build -t video_text_extraction . ; docker rm -f video_text_extraction_container 2>$null ; docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
 ```
 
 ---
