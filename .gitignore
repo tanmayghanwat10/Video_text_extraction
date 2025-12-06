@@ -1,10 +1,6 @@
 
 .venv/
 output/
-input/*.mp4
-input/*.mkv
-input/*.avi
-input/*.mov
-input/*.webm
-*.wav
 __pycache__/
+*.pt
+*.wav

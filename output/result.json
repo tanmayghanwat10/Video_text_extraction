@@ -1,48 +1,84 @@
 {
-    "video": "Sample.mp4",
-    "phrases": {
-        "hello world": [],
-        "come": [
-            {
-                "start": 6.0,
-                "end": 12.0
-            },
-            {
-                "start": 89.1,
-                "end": 93.26
-            },
-            {
-                "start": 539.56,
-                "end": 544.2
-            },
-            {
-                "start": 544.2,
-                "end": 548.2
-            }
-        ],
+    "video": "video.mp4",
+    "matches": {
         "go": [
             {
-                "start": 67.18,
-                "end": 73.62
+                "start": 30.32,
+                "end": 36.64
             },
             {
-                "start": 338.35,
-                "end": 342.95
+                "start": 48.48,
+                "end": 56.48
             },
             {
-                "start": 393.48,
-                "end": 395.8
+                "start": 56.48,
+                "end": 63.12
             },
             {
-                "start": 544.2,
-                "end": 548.2
+                "start": 63.12,
+                "end": 71.52
+            },
+            {
+                "start": 72.8,
+                "end": 78.24
+            },
+            {
+                "start": 244.88,
+                "end": 252.32
+            },
+            {
+                "start": 282.08,
+                "end": 288.0
+            },
+            {
+                "start": 319.76,
+                "end": 325.28
+            },
+            {
+                "start": 326.0,
+                "end": 331.44
+            },
+            {
+                "start": 337.52,
+                "end": 343.76
+            },
+            {
+                "start": 349.04,
+                "end": 354.96
+            },
+            {
+                "start": 354.96,
+                "end": 362.48
+            },
+            {
+                "start": 391.36,
+                "end": 397.6
+            },
+            {
+                "start": 545.68,
+                "end": 552.48
             }
-        ]
-    },
-    "execution_time_seconds": {
-        "audio_extraction": 2.21,
-        "transcription": 233.29,
-        "phrase_search": 0.08,
-        "total": 236.2
+        ],
+        "come": [
+            {
+                "start": 0.0,
+                "end": 11.6
+            },
+            {
+                "start": 84.4,
+                "end": 91.36
+            },
+            {
+                "start": 534.88,
+                "end": 541.44
+            },
+            {
+                "start": 541.44,
+                "end": 545.68
+            }
+        ],
+        "alert": [],
+        "ladki": [],
+        "अब": []
     }
 }
