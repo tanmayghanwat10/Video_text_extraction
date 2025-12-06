@@ -13,7 +13,7 @@ def extract_audio(video_path, output_dir):
         audio_path
     ]
 
-    print("🔊 Extracting audio...")
+    print("Extracting audio...")
     subprocess.run(
     cmd,
     check=True,

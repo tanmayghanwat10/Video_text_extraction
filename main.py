@@ -23,14 +23,14 @@ def select_video(input_dir):
     ]
 
     if not videos:
-        raise FileNotFoundError("❌ No video files found in input/ folder")
+        raise FileNotFoundError("No video files found in input/ folder")
 
     if len(videos) == 1:
-        logging.info(f"🎬 Single video detected: {videos[0]}")
+        logging.info(f"Single video detected: {videos[0]}")
         return videos[0]
 
     # Multiple videos → ask user
-    logging.info("🎬 Multiple videos detected. Please choose one:\n")
+    logging.info("Multiple videos detected. Please choose one:\n")
     for idx, video in enumerate(videos, start=1):
         print(f"{idx}. {video}")
 
@@ -42,23 +42,22 @@ def select_video(input_dir):
         except ValueError:
             pass
 
-        print("❌ Invalid selection. Try again.")
+        print("Invalid selection. Try again.")
 
 
 def main():
     start_time = time.time()
-    logging.info("🚀 Starting Video Text Extraction")
+    logging.info("tarting Video Text Extraction")
 
     phrases_path = os.path.join(INPUT_DIR, "phrases.txt")
     if not os.path.exists(phrases_path):
-        raise FileNotFoundError("❌ input/phrases.txt not found")
+        raise FileNotFoundError("input/phrases.txt not found")
 
     video_name = select_video(INPUT_DIR)
     video_path = os.path.join(INPUT_DIR, video_name)
 
     audio_path = extract_audio(video_path, OUTPUT_DIR)
 
-    # chunks = generate_transcript(audio_path, model_size="tiny")
     chunks = generate_transcript(audio_path)
 
     with open(phrases_path, "r", encoding="utf-8") as f:
@@ -78,8 +77,8 @@ def main():
         json.dump(output, f, indent=4, ensure_ascii=False)
 
     elapsed = time.time() - start_time
-    logging.info(f"✅ Done! Results saved to {output_path}")
-    logging.info(f"⏱️ Total execution time: {elapsed:.2f} seconds")
+    logging.info(f"Done! Results saved to {output_path}")
+    logging.info(f"Total execution time: {elapsed:.2f} seconds")
 
 
 if __name__ == "__main__":

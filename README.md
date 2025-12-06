@@ -1,32 +1,56 @@
-# 🎥 Video Text Occurrence Extraction  
-### (Whisper Medium • Auto GPU Detection • Faster-Whisper CPU Fallback)
+# 🎥 Video Text Occurrence Extraction
+*(Offline • Multilingual • Whisper Auto CPU/GPU • Regex Phrase Matching)*
 
-This project extracts **phrases with timestamps** from a video by:
-1. Extracting audio (FFmpeg)
-2. Transcribing speech (Whisper ASR)
-3. Searching for phrase occurrences
-4. Saving results in JSON format
+This project extracts **phrase occurrences with timestamps** from video files using the **open-source OpenAI Whisper** speech-to-text model.
 
-The system is **fully automatic**, selecting the best transcription engine based on your hardware.
+The pipeline works as follows:
+1. 🎧 Extracts audio from video using FFmpeg  
+2. 🧠 Generates a speech transcript using Whisper  
+3. 🔍 Searches for user-defined phrases using regex-based matching  
+4. 📄 Saves results in structured JSON format  
+
+✅ Fully offline  
+✅ Free (no OpenAI API key required)  
+✅ Supports Hindi, English, Hinglish, and other languages  
 
 ---
 
 ## 🚀 Automatic Model Selection
 
-### 🔥 If GPU is available:
-- Uses **openai/whisper-medium** (FP16)  
-- If VRAM < 3GB → switches to **openai/whisper-small**
+The transcription model is selected automatically at runtime:
 
-### 🧊 If NO GPU:
-- Uses **Faster-Whisper Small (INT8)**  
-  → Fastest CPU model  
-  → Very lightweight  
+- **GPU available** → Uses **Whisper MEDIUM** for higher accuracy  
+- **CPU only** → Uses **Whisper TINY** for fast and lightweight processing  
 
-No manual selection required.
+This ensures:
+- Fast execution on GPU systems  
+- Safe and portable execution on CPU-only machines  
+- Stable behavior inside Docker containers  
 
 ---
 
-## 📦 Project Structure
+## ⭐ Key Features
+
+- Offline and free speech transcription  
+- Multilingual support (Hindi, English, Hinglish, etc.)  
+- Regex-based **root word matching**  
+  - Example: `fuck` matches `fuck`, `fucking`, `fucked`  
+- Avoids false positives (e.g. does not match `firetruck`)  
+- Handles multiple videos by prompting user selection  
+- Execution time logging  
+- Docker-ready with CPU-safe defaults  
+
+---
+
+## 📝 phrases.txt (Example)
+
+```txt
+fuck
+go
+ladki
+alert
+```
+### 📦 Project Structure
 
 ```
 video_text_extraction/
@@ -48,82 +72,134 @@ video_text_extraction/
 ```
 
 ---
+### ENV setup 
 
----
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+source .venv/bin/activate #for linux and macos
+pip install -r requirements.txt
 
-## 🐳 Docker Usage (Fully Containerized)
+```
+### Run Locally 
 
-The project is now fully dockerized using Docker Compose for easy management. No local Python setup required!
+```bash
 
-### Prerequisites
-- Docker installed on your system
-- Docker Compose (usually included with Docker Desktop)
+python main.py
 
-### Initial Setup and Run
-
-1. **Build and run the container:**
-   ```bash
-   docker-compose up --build
-   ```
-
-2. **Place your files:**
-   - Add your `video.mp4` and `phrases.txt` to the `input/` directory
-   - The container will automatically process them and output to `output/result.json`
-
-### Subsequent Runs
-
-- **Run without rebuilding (if no code changes):**
-  ```bash
-  docker-compose up
-  ```
-
-- **Rebuild after code changes:**
-  ```bash
-  docker-compose up --build
-  ```
-
-- **Run in background:**
-  ```bash
-  docker-compose up -d
-  ```
-
-- **Stop the container:**
-  ```bash
-  docker-compose down
-  ```
-
-### Legacy Docker Commands (if needed)
-
-If you prefer manual Docker commands instead of Compose:
+```
+### Docker Usage...
 
 ```bash
 # Build image
 docker build -t video_text_extraction .
+```
+### For Wins 
 
+```bash
 # Run container
-docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output video_text_extraction
+docker run -it --rm \
+  -v ${PWD}/input:/app/input \
+  -v ${PWD}/output:/app/output \
+  video_text_extraction
+
 ```
 
-**Note:** Docker Compose simplifies volume mounting and container management, making it the recommended approach for full containerization.
+### For Linux MAcos
+```bash
+docker run -it --rm \
+  -v $(pwd)/input:/app/input \
+  -v $(pwd)/output:/app/output \
+  video_text_extraction
 
+```
 ---
 
 ## 📤 Output Example (`result.json`)
 
 ```json
 {
-    "video": "Sample.mp4",
-    "phrases": {
-        "hello world": [],
+    "video": "video.mp4",
+    "matches": {
         "go": [
-            {"start": 12.5, "end": 15.1}
-        ]
-    },
-    "execution_time_seconds": {
-        "audio_extraction": 2.59,
-        "transcription": 216.65,
-        "phrase_search": 0.0,
-        "total": 219.24
+            {
+                "start": 30.32,
+                "end": 36.64
+            },
+            {
+                "start": 48.48,
+                "end": 56.48
+            },
+            {
+                "start": 56.48,
+                "end": 63.12
+            },
+            {
+                "start": 63.12,
+                "end": 71.52
+            },
+            {
+                "start": 72.8,
+                "end": 78.24
+            },
+            {
+                "start": 244.88,
+                "end": 252.32
+            },
+            {
+                "start": 282.08,
+                "end": 288.0
+            },
+            {
+                "start": 319.76,
+                "end": 325.28
+            },
+            {
+                "start": 326.0,
+                "end": 331.44
+            },
+            {
+                "start": 337.52,
+                "end": 343.76
+            },
+            {
+                "start": 349.04,
+                "end": 354.96
+            },
+            {
+                "start": 354.96,
+                "end": 362.48
+            },
+            {
+                "start": 391.36,
+                "end": 397.6
+            },
+            {
+                "start": 545.68,
+                "end": 552.48
+            }
+        ],
+        "come": [
+            {
+                "start": 0.0,
+                "end": 11.6
+            },
+            {
+                "start": 84.4,
+                "end": 91.36
+            },
+            {
+                "start": 534.88,
+                "end": 541.44
+            },
+            {
+                "start": 541.44,
+                "end": 545.68
+            }
+        ],
+        "alert": [],
+        "ladki": [],
+        "अब": []
     }
 }
 ```
