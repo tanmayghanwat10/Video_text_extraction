@@ -58,7 +58,8 @@ def main():
 
     audio_path = extract_audio(video_path, OUTPUT_DIR)
 
-    chunks = generate_transcript(audio_path, model_size="tiny")
+    # chunks = generate_transcript(audio_path, model_size="tiny")
+    chunks = generate_transcript(audio_path)
 
     with open(phrases_path, "r", encoding="utf-8") as f:
         phrases = [line.strip() for line in f if line.strip()]
