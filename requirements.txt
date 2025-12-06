@@ -1,12 +1,3 @@
-#core ASR engines
-faster-whisper>=0.8.0
-ctranslate2>=3.10.0
-numpy>=1.24.0
-
-#huggingface and transformers for GPU path
-transformers>=4.30.0
-huggingface-hub>=0.17.0
-torch>=2.0.0
-
-#optional utilities (not strictly required but useful)
-#moviepy and pydub removed (we use ffmpeg directly)
+openai-whisper
+torch
+tqdm

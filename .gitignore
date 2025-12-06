@@ -1,24 +1,10 @@
-# Virtual environments
+
 .venv/
-venv/
-
-# Python cache
+output/
+input/*.mp4
+input/*.mkv
+input/*.avi
+input/*.mov
+input/*.webm
+*.wav
 __pycache__/
-*.pyc
-
-# HuggingFace cache
-.cache/
-huggingface/
-hf_cache/
-models/
-
-# Temp
-temp_audio.wav
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Docker build cache
-*.tar

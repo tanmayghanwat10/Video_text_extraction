@@ -49,111 +49,62 @@ video_text_extraction/
 
 ---
 
-## 🧪 Local Setup (Python)
-
-### 1. Create virtual environment
-
-**Windows**
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-**Linux/macOS**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
 ---
 
-### 2. Install dependencies
+## 🐳 Docker Usage (Fully Containerized)
+
+The project is now fully dockerized using Docker Compose for easy management. No local Python setup required!
+
+### Prerequisites
+- Docker installed on your system
+- Docker Compose (usually included with Docker Desktop)
+
+### Initial Setup and Run
+
+1. **Build and run the container:**
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **Place your files:**
+   - Add your `video.mp4` and `phrases.txt` to the `input/` directory
+   - The container will automatically process them and output to `output/result.json`
+
+### Subsequent Runs
+
+- **Run without rebuilding (if no code changes):**
+  ```bash
+  docker-compose up
+  ```
+
+- **Rebuild after code changes:**
+  ```bash
+  docker-compose up --build
+  ```
+
+- **Run in background:**
+  ```bash
+  docker-compose up -d
+  ```
+
+- **Stop the container:**
+  ```bash
+  docker-compose down
+  ```
+
+### Legacy Docker Commands (if needed)
+
+If you prefer manual Docker commands instead of Compose:
 
 ```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
----
-
-### 3. Run the project
-
-Place your video & phrases file into:
-
-```
-input/
- ├── video.mp4
- └── phrases.txt
-```
-
-Then run:
-
-```bash
-python main.py
-```
-
-Output will be saved in:
-
-```
-output/result.json
-```
-
----
-
-## 🐳 Docker Usage
-
-### Initial Build
-
-```bash
+# Build image
 docker build -t video_text_extraction .
+
+# Run container
+docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output video_text_extraction
 ```
 
-### Rebuild image after code changes (fast - uses cached dependencies)
-
-```bash
-docker build -t video_text_extraction .
-```
-
-### Run (Windows PowerShell)
-
-```powershell
-# Stop existing container (keeps it for reuse)
-docker stop video_text_extraction_container 2>$null
-
-# Start with updated image and fresh file mounts
-docker start video_text_extraction_container 2>$null || docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
-```
-
-### Linux / macOS
-
-```bash
-# Stop existing container (keeps it for reuse)
-docker stop video_text_extraction_container 2>/dev/null
-
-# Restart or create new container with fresh mounts
-docker start video_text_extraction_container 2>/dev/null
-
-docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
-```
-
-**Note:** Docker containers are immutable. To update code changes:
-1. Rebuild the image (step 2 above) - dependencies are cached, only code layer rebuilds
-2. Remove old container: `docker rm video_text_extraction_container`
-3. Run the container again with the new image
-
-For quick updates, use this one-liner:
-
-**Linux/macOS:**
-```bash
-docker build -t video_text_extraction . 
-docker run --name video_text_extraction_container -v $(pwd)/input:/input -v $(pwd)/output:/output video_text_extraction
-```
-
-**Windows PowerShell:**
-```powershell
-docker build -t video_text_extraction . ;  
-docker run --name video_text_extraction_container -v ${PWD}\input:/input -v ${PWD}\output:/output video_text_extraction
-```
+**Note:** Docker Compose simplifies volume mounting and container management, making it the recommended approach for full containerization.
 
 ---
 

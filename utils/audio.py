@@ -1,17 +1,24 @@
 import subprocess
+import os
 
-def extract_audio(video_path: str, audio_path: str):
-    """
-    Extract audio using ffmpeg (mono, 16kHz). Silent ffmpeg output.
-    """
+def extract_audio(video_path, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    audio_path = os.path.join(output_dir, "audio.wav")
+
     cmd = [
-        "ffmpeg",
+        "ffmpeg", "-y",
         "-i", video_path,
-        "-vn",
-        "-acodec", "pcm_s16le",
-        "-ac", "1",        # convert to mono to speed up ASR
-        "-ar", "16000",    # 16kHz sample rate
-        "-loglevel", "quiet",
+        "-ac", "1",
+        "-ar", "16000",
         audio_path
     ]
-    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+
+    print("🔊 Extracting audio...")
+    subprocess.run(
+    cmd,
+    check=True,
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
+
+    return audio_path
